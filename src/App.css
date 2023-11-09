@@ -84,7 +84,7 @@ h6
   border-radius:14px;
 }
 
-.icon-wrapper
+.icon-wrapper-IN
 {
   display: flex;
   flex-direction: column;
@@ -98,6 +98,22 @@ h6
   border-radius:6px;
   color: #3C3DBF;
 }
+
+.icon-wrapper-OUT
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap:10px;
+  width:35px;
+  height: 35px;
+  background: #FFECF0;
+  border-radius:6px;
+  color: #FF3666;
+}
+
 
 .text-indigo
 {
