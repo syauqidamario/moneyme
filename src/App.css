@@ -5,3 +5,130 @@
 {
   font-family: 'Nunito', sans-serif;
 }
+
+h1
+{
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 60px;
+
+  background: linear-gradient(267.81deg, #081d60 0%, #2A5DFF 106.64%) ;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color:transparent;
+  backround-clip:text;
+  text-fill-color:transparent;
+}
+
+h2
+{
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 48px;
+  color: #454545;
+}
+
+h3
+{
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height:14px !important;
+  color:#454545;
+}
+
+h4
+{
+  font-weight: 500;
+  font-size:20px;
+  line-height:30px;
+  color:#3C3DBF;
+}
+
+h5
+{
+  font-weight:600;
+  font-size:14px;
+  line-height:21px;
+  color:#3C3DBF;
+}
+
+h6
+{
+  font-weight:400;
+  font-size:14px;
+  line-height:16px;
+  color:#454545
+}
+
+.title-sm
+{
+  font-weight: 400;
+  font-size: 12px;
+  line-height:12px;
+  color:#423e3e;
+}
+
+.title-md
+{
+  font-weight: 400;
+  font-size: 14px;
+  line-height:12px !important;
+  color:#423e3e;
+}
+
+.card-wrapper
+{
+  background: #FFFFFF;
+  border:1px solid #F4F4F4;
+  box-shadow: 0px 6px 30px rgba(206, 206, 206, 0.25);
+  border-radius:14px;
+}
+
+.icon-wrapper
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap:10px;
+  width:35px;
+  height: 35px;
+  background: #E4E5FF;
+  border-radius:6px;
+  color: #3C3DBF;
+}
+
+.text-indigo
+{
+  color:#7e21d4;
+}
+
+.button
+{
+  border-radius:8px;
+  border:none;
+  color:#fff;
+}
+
+.btn-indigo
+{
+  background:#7e21d4
+}
+
+.btn-red
+{
+  background:#FF3666;
+}
+
+.text-money-in
+{
+  font-weight:600 !important;
+  color:#3C3DBF;
+}
+
+.text-money-out
+{
+  font-weight:600 !important;
+  color:#FF3666;
+}
