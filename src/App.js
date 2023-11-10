@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import './App.css';
-import { useState } from 'react';
+// import { useState } from 'react';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -120,10 +120,14 @@ class ModalCreate extends React.Component
   {
     super();
     this.state = {
-      show : false
+      show : false,
+      description: '',
+      nominal:0,
+      date: ''
     }
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleClose()
@@ -140,6 +144,13 @@ class ModalCreate extends React.Component
     })
   }
 
+  handleChange(evt){ 
+    this.setState(
+    { 
+      [evt.target.name] : evt.target.value,
+    })
+    console.log(this.state)
+  }
   render()
   {
     return (
@@ -149,7 +160,41 @@ class ModalCreate extends React.Component
           <Modal.Header closeButton>
             <Modal.Title>{this.props.modalheading}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+          <Modal.Body>
+            <div className="mb-3">
+              <label className="form-label">Description</label>
+              <input type="text" 
+                className="form-control" 
+                placeholder="Enter description" 
+                name='Description' 
+                value={this.state.description}
+                onChange={this.handleChange}
+                />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Nominal</label>
+              <input type="number" 
+                className="form-control" 
+                placeholder="Enter amount of money" 
+                name='Nominal' 
+                value={this.state.nominal}
+                onChange={this.handleChange}
+                />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Date</label>
+              <input type="date" 
+                className="form-control" 
+                placeholder="Enter date" 
+                name='Date' 
+                value={this.state.date}
+                onChange={this.handleChange}
+                />
+            </div>
+
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={this.handleClose}>
               Save Changes
