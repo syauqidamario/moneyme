@@ -30,9 +30,16 @@ class App extends React.Component{
         date: 'November 3rd, 2023',
         nominal: 45000,
         category: 'OUT',
-      }
+      },
     ]
   }
+}
+
+addItem(object){
+  console.log(object)
+  this.setState({
+    summary:[ ]
+  })
 }
   render() {
     return (
@@ -83,8 +90,8 @@ class App extends React.Component{
               <div className='col-12 d-flex justify-content-between align-items-center'>
                 <h4>Summary of Transactions</h4>
                 <div className='wrapper-button d-flex'>
-                  <ModalCreate variant="button btn-indigo px-3 py-2 me-2" text="Income" icon="bi bi-plus-circle-fill" modalheading="Add Income"/>
-                  <ModalCreate variant="button btn-red px-3 py-2 me-2" text="Expenses" icon="bi bi-plus-circle-fill" modalheading="Add Expenses"/>
+                  <ModalCreate action={this.addItem} category="IN" variant="button btn-indigo px-3 py-2 me-2" text="Income" icon="bi bi-plus-circle-fill" modalheading="Add Income"/>
+                  <ModalCreate action={this.addItem} category="OUT" variant="button btn-red px-3 py-2 me-2" text="Expenses" icon="bi bi-plus-circle-fill" modalheading="Add Expenses"/>
                 </div>
               </div>
             </div>
@@ -123,11 +130,13 @@ class ModalCreate extends React.Component
       show : false,
       description: '',
       nominal:0,
-      date: ''
+      date: '',
+      category: ''
     }
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.addItem = this.addItem.bind(this);
   }
 
   handleClose()
@@ -140,7 +149,8 @@ class ModalCreate extends React.Component
   handleShow()
   {
     this.setState({ 
-      show : true
+      show : true,
+      category : this.props.category
     })
   }
 
@@ -149,7 +159,20 @@ class ModalCreate extends React.Component
     { 
       [evt.target.name] : evt.target.value,
     })
-    console.log(this.state)
+  }
+
+  addItem(){
+  const Data = {
+      description: this.state.description,
+      nominal: this.state.nominal,
+      date: this.state.date,
+      category: this.state.category
+  }
+   const funcAddItem = this.props.action;
+   funcAddItem(Data);
+    this.setState({
+      show:false
+    })
   }
   render()
   {
@@ -194,9 +217,19 @@ class ModalCreate extends React.Component
                 />
             </div>
 
+            <div>
+              <input type="hidden" 
+                className="form-control" 
+                placeholder="Enter category" 
+                name='Date' 
+                value={this.state.category}
+                onChange={this.handleChange}
+                />
+            </div>
+
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={this.handleClose}>
+            <Button variant="primary" onClick={this.addItem}>
               Save Changes
             </Button>
           </Modal.Footer>
