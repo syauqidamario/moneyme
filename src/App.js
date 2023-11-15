@@ -73,7 +73,7 @@ class App extends React.Component{
   render(){
     return (
       <>
-        <div className='container py-5'>
+        <div className='container mx-auto'>
           <div className='row'>
             <div className='col-12 text-center'>
               <h1 className='fw-bold'>MoneyMe</h1>
