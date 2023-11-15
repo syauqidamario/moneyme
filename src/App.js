@@ -28,17 +28,45 @@ class App extends React.Component{
       {
         description:'Buys Shihlin',
         date: 'November 3rd, 2023',
-        nominal: 45000,
+        nominal: 90000,
+        category: 'OUT',
+      },
+      {
+        description:'Buys Makaroni Ngehe',
+        date: 'November 4rd, 2023',
+        nominal: 35000,
         category: 'OUT',
       },
     ]
   }
+
+  this.addItem = this.addItem.bind(this);
 }
 
 addItem(object){
   console.log(object)
   this.setState({
-    summary:[ ]
+    summary:[...this.state.summary, object]
+  })
+}
+
+componentDidMount(){
+  let cashDataIN = this.state.summary.filter((item) => item.category === 'IN' );
+  let cashAmount = cashDataIN.map((item) => item.nominal);
+  let totalCashIn = cashAmount.reduce((sum, amount) => sum + amount);
+  let cashDataOUT = this.state.summary.filter( (item) => item.category === 'OUT');
+  let cashAmountOUT = cashDataOUT.map((item) => item.nominal);
+  let totalCashOut = cashAmountOUT.reduce((sum, amount) => sum + amount)
+  console.log(totalCashOut)
+
+  console.log(totalCashIn)
+  this.setState({
+    cashIncome: totalCashIn,
+    transactionIN: cashAmount.length,
+    cashExpense: totalCashOut,
+    transactionOUT: cashAmountOUT.length,
+    remainingCash: cashAmount - cashAmountOUT,
+    cashPercentage: (cashAmount - cashAmountOUT)/cashAmount * 100
   })
 }
   render() {
@@ -65,7 +93,7 @@ addItem(object){
               </span>
               <h3 className='fw-bold '>Rp. {this.state.income} </h3>
               <div>
-                <span className='title-sm text-indigo fw-bold'>50</span><span className='title-sm'> Transactions</span>
+                <span className='title-sm text-indigo fw-bold'>{this.state.transactionIN}</span><span className='title-sm'> Transactions</span>
               </div>
               </div>
             </div>
@@ -80,7 +108,7 @@ addItem(object){
               </span>
               <h3 className='fw-bold '>Rp. {this.state.expense},</h3>
               <div>
-                <span className='title-sm text-indigo fw-bold'>50</span><span className='title-sm'> Transactions</span>
+                <span className='title-sm text-indigo fw-bold'>{this.state.transactionOUT}</span><span className='title-sm'> Transactions</span>
               </div>
               </div>
             </div>
