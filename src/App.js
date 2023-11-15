@@ -1,9 +1,7 @@
 /* eslint-disable no-useless-constructor */
 import './App.css';
-// import { useState } from 'react';
 import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import ModalCreate from './component/ModalCreate';
 
 class App extends React.Component{
   constructor(){
@@ -44,30 +42,50 @@ class App extends React.Component{
 }
 
 addItem(object){
-  console.log(object)
-  this.setState({
-    summary:[...this.state.summary, object]
-  })
-}
-
-componentDidMount(){
+  let newData = [...this.state.summary, object]
   let cashDataIN = this.state.summary.filter((item) => item.category === 'IN' );
   let cashAmount = cashDataIN.map((item) => item.nominal);
-  let totalCashIn = cashAmount.reduce((sum, amount) => sum + amount);
+  let totalCashIn = cashAmount.reduce((sum, amount) => sum + amount, 0);
   let cashDataOUT = this.state.summary.filter( (item) => item.category === 'OUT');
   let cashAmountOUT = cashDataOUT.map((item) => item.nominal);
-  let totalCashOut = cashAmountOUT.reduce((sum, amount) => sum + amount)
-  console.log(totalCashOut)
-
-  console.log(totalCashIn)
+  let totalCashOut = cashAmountOUT.reduce((sum, amount) => sum + amount, 0)
+  
   this.setState({
     cashIncome: totalCashIn,
     transactionIN: cashAmount.length,
     cashExpense: totalCashOut,
     transactionOUT: cashAmountOUT.length,
     remainingCash: cashAmount - cashAmountOUT,
-    cashPercentage: (cashAmount - cashAmountOUT)/cashAmount * 100
+    cashPercentage: (cashAmount - cashAmountOUT)/cashAmount * 100,
+    summary: newData
   })
+}
+
+funcCalculate()
+{
+  let cashDataIN = this.state.summary.filter((item) => item.category === 'IN' );
+  let cashAmount = cashDataIN.map((item) => item.nominal);
+  let totalCashIn = cashAmount.reduce((sum, amount) => sum + amount);
+  let cashDataOUT = this.state.summary.filter( (item) => item.category === 'OUT');
+  let cashAmountOUT = cashDataOUT.map((item) => item.nominal);
+  let totalCashOut = cashAmountOUT.reduce((sum, amount) => sum + amount)
+  this.setState({
+    cashIncome: totalCashIn,
+    transactionIN: cashAmount.length,
+    cashExpense: totalCashOut,
+    transactionOUT: cashAmountOUT.length,
+    remainingCash: cashAmount - cashAmountOUT,
+    cashPercentage: (cashAmount - cashAmountOUT)/cashAmount * 100,
+  })
+}
+
+componentDidMount(){
+  if(this.state.summary.length < 1){
+    console.log('OK')
+  }
+  else{
+    this.funcCalculate()
+  }
 }
   render() {
     return (
@@ -85,34 +103,20 @@ componentDidMount(){
           <div className="row mt-4">
             <div className='col-6'>
               <div className='card-wrapper p-4'>
-              <div className='icon-wrapper mb-1'>
-                <i className="bi bi-cash-stack"></i>
+              <div className='icon-wrapper-IN mb-1'>
+                <i className="bi bi-wallet2"></i>
               </div>
-              <span className="title">
+              <span className="title-sm">
                 Income
               </span>
-              <h3 className='fw-bold '>Rp. {this.state.income} </h3>
+              <h3 className='fw-bold '>Rp. {this.state.income},- </h3>
               <div>
                 <span className='title-sm text-indigo fw-bold'>{this.state.transactionIN}</span><span className='title-sm'> Transactions</span>
               </div>
               </div>
             </div>
 
-            <div className='col-6'>
-              <div className='card-wrapper p-4'>
-              <div className='icon-wrapper mb-1'>
-                <i className="bi bi-cash-stack"></i>
-              </div>
-              <span className="title">
-                Expense
-              </span>
-              <h3 className='fw-bold '>Rp. {this.state.expense},</h3>
-              <div>
-                <span className='title-sm text-indigo fw-bold'>{this.state.transactionOUT}</span><span className='title-sm'> Transactions</span>
-              </div>
-              </div>
             </div>
-          </div>
 
             <div className='row mt-5'>
               <div className='col-12 d-flex justify-content-between align-items-center'>
@@ -149,122 +153,18 @@ componentDidMount(){
   }
 }
 
-class ModalCreate extends React.Component
-{
-  constructor()
-  {
-    super();
-    this.state = {
-      show : false,
-      description: '',
-      nominal:0,
-      date: '',
-      category: ''
-    }
-    this.handleClose = this.handleClose.bind(this);
-    this.handleShow = this.handleShow.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.addItem = this.addItem.bind(this);
+class Alert extends React.Component{
+
+  constructor() {
+    super()
   }
 
-  handleClose()
-  {
-    this.setState({ 
-      show : false
-    })
-  }
-
-  handleShow()
-  {
-    this.setState({ 
-      show : true,
-      category : this.props.category
-    })
-  }
-
-  handleChange(evt){ 
-    this.setState(
-    { 
-      [evt.target.name] : evt.target.value,
-    })
-  }
-
-  addItem(){
-  const Data = {
-      description: this.state.description,
-      nominal: this.state.nominal,
-      date: this.state.date,
-      category: this.state.category
-  }
-   const funcAddItem = this.props.action;
-   funcAddItem(Data);
-    this.setState({
-      show:false
-    })
-  }
-  render()
-  {
+  render(){
     return (
-      <>
-        <button onClick={this.handleShow} className={this.props.variant}>{this.props.text}<i className={this.props.icon}></i></button>
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{this.props.modalheading}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="mb-3">
-              <label className="form-label">Description</label>
-              <input type="text" 
-                className="form-control" 
-                placeholder="Enter description" 
-                name='Description' 
-                value={this.state.description}
-                onChange={this.handleChange}
-                />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">Nominal</label>
-              <input type="number" 
-                className="form-control" 
-                placeholder="Enter amount of money" 
-                name='Nominal' 
-                value={this.state.nominal}
-                onChange={this.handleChange}
-                />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">Date</label>
-              <input type="date" 
-                className="form-control" 
-                placeholder="Enter date" 
-                name='Date' 
-                value={this.state.date}
-                onChange={this.handleChange}
-                />
-            </div>
-
-            <div>
-              <input type="hidden" 
-                className="form-control" 
-                placeholder="Enter category" 
-                name='Date' 
-                value={this.state.category}
-                onChange={this.handleChange}
-                />
-            </div>
-
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={this.addItem}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
+      <h1>Still no data.</h1>
     )
-  }
+  } 
+
 }
 
 export default App;
